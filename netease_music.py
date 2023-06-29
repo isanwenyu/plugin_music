@@ -29,8 +29,9 @@ class Music(Plugin):
         config_path = os.path.join(curdir, "config.json")
         with open(config_path, "r", encoding="utf-8") as f:
             conf = json.load(f)
-        username = conf.get("username", "")
-        passwd_md5 = conf.get("passwd_md5", "")
+        # get default config from root
+        username = conf.get("username", root_config.get("music_username", ""))
+        passwd_md5 = conf.get("passwd_md5", root_config.get("music_password", ""))
         if username == "" or passwd_md5 == "":
             logger.error("username or passwd_md5 not config, Music quit")
             return
