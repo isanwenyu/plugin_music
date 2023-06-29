@@ -131,7 +131,7 @@ class NetEaseApi():
 
 if __name__ == "__main__":
     # test login
-    api = NetEaseApi("xx@163.com", "684a9721bf6f939855803a")
+    api = NetEaseApi("bevanpf@163.com", "a6979486d8684a9721bf6f939855803a")
     # resp = api.search("可惜我是水瓶座")
     # print("resp ==> {}".format(resp))
     resp = api.song_url(["1984475097"])

@@ -8,7 +8,9 @@ from bridge.bridge import Bridge
 from bridge.context import ContextType
 import re
 from bridge.reply import Reply, ReplyType
+from config import conf as root_config
 
+trigger_prefix="$" #全局变量
 
 @plugins.register(
     name="Music",
@@ -33,6 +35,10 @@ class Music(Plugin):
             logger.error("username or passwd_md5 not config, Music quit")
             return
         self.api = NetEaseApi(username, passwd_md5)
+
+        #修改全局变量，需要使用global关键字声明
+        global trigger_prefix
+        trigger_prefix = root_config().get("plugin_trigger_prefix", "$")
         logger.info("[Music] inited")
 
     def on_handle_context(self, e_context: EventContext):
@@ -42,12 +48,11 @@ class Music(Plugin):
         logger.info("content => " + query)
         reply = Reply()
         reply.type = ReplyType.TEXT
-        if query.startswith(f'music '):
+        if query.startswith(f'{trigger_prefix}music '):
             query_list = query.split(" ", 1)
             query = query_list[1]
-            if query.startswith(f'点歌：') or query.startswith(f'点歌:'):
-                msg = query.replace("点歌:", "")
-                msg = query.replace("点歌：", "")
+            if query.startswith(f'点歌'):
+                msg = query.replace("点歌", "")
                 msg = msg.strip()
                 url, name, ar = self.search_song(msg)
                 if url != "":
@@ -82,9 +87,9 @@ class Music(Plugin):
 
     def get_help_text(self, verbose=False, **kwargs):
         help_text = "推荐音乐\n"
-        help_text += "music 推荐:一首粤语经典歌曲"
+        help_text += f"{trigger_prefix}music 推荐一首粤语经典歌曲"
         help_text += "点歌\n"
-        help_text += "music 点歌: 可惜我是水瓶座-杨千嬅"
+        help_text += f"{trigger_prefix}music 点歌 可惜我是水瓶座-杨千嬅"
         return help_text
 
     def search_song(self, song_info):

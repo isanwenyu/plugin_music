@@ -33,8 +33,8 @@ cp config.json.example config.json
 5. 重新启动chatgpt-on-wechat
 #### 触发
 <关键字><空格><指令>:<内容>
-- 点歌: `music 点歌:可惜我是水瓶座-杨千嬅`
-- 推荐: `music 推荐一手粤语歌曲`
+- 点歌: `$music 点歌 可惜我是水瓶座-杨千嬅`
+- 推荐: `$music 推荐一首粤语歌曲`
 
 #### 效果
 
